@@ -11,17 +11,27 @@ int main(int argc, char** argv){
         exit(EXIT_FAILURE);
     }
 
-    int n = atoi(argv[1]);
-    int sstdv = atof(argv[2]);
+    int n = atoi(argv[1]); // Tamaño del arreglo
+    int sd = atof(argv[2]); // Desviación estanda
     int media = 5;
 
+    /*if(EXP)
+        experimentacion exp;
+
+    if (EXP)
+        exp.tomaMarcaIniRam();
+    */
     int* arregloLineal = creaArregloLineal(n);
+    
+    /*if (EXP)
+        exp.imprimeRamUsada();*/
+
     if (PRINT){
         cout << "Arreglo Lineal: ";
         imprimeArreglo(arregloLineal, n);
     }
 
-    int* arregloNormal = creaArregloNormal(n, media, sstdv);
+    int* arregloNormal = creaArregloNormal(n, media, sd);
     if (PRINT){
         cout << "Arreglo Normal: ";         
         imprimeArreglo(arregloNormal, n);
@@ -85,4 +95,10 @@ int main(int argc, char** argv){
         }while (num != -1);
     }
 
+    // Frecuencia de los arreglos GC
+    vector<simboloFrec> frecuenciaGCLineal = frecuenciaGC(arregloGCLineal, n);
+    if (PRINT){
+        cout << "Frecuencia de los arreglos GC Lineal: " << endl;
+        imprimeFrecuencia(frecuenciaGCLineal);
+    }
 }

@@ -4,7 +4,7 @@ using namespace std;
 // Crea un arreglo ordenado siguiendo la distribución lineal
 int* creaArregloLineal(int largo){
     int* arr = new int[largo];
-    arr[0] = rand() % EPSILON;
+    arr[0] = rand() % (EPSILON + 1);
     for(int i = 1; i < largo; i++){
         arr[i] = arr[i-1] + rand()%(EPSILON+1);
     }

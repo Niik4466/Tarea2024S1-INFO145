@@ -4,7 +4,6 @@
 #include <iostream>
 #include <cstdlib>
 
-#define EPSILON 10
 
 // Definicion de las funciones  
 int* creaGC(int* arreglo, int largo);

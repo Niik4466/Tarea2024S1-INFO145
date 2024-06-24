@@ -24,7 +24,6 @@ int* creaSample(int* arreglo, int n, int m, int b){
     return sample;
 }
 
-
 int busquedaBinariaSample_GC(int* GC, int* Sample, int x, int n, int m, int b) {
     int izq = 0, der = m - 1;
     if(x<Sample[0]) return -1;
