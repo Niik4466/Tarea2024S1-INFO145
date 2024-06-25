@@ -12,8 +12,8 @@ int main(int argc, char** argv){
     }
 
     int n = atoi(argv[1]); // Tamaño del arreglo
-    int sd = atof(argv[2]); // Desviación estanda
-    int media = 5;
+    int sd = atof(argv[2]); // Desviación estandar
+    int media = 1e8;
 
     /*if(EXP)
         experimentacion exp;
@@ -64,7 +64,7 @@ int main(int argc, char** argv){
     double logaritmo = log2(n);
     int m = static_cast<int>(ceil(logaritmo));
     int b = n/m;
-    cout << "m: " << m << ", b: " << b << endl;
+    //cout << "m: " << m << ", b: " << b << endl;
 
     int *arregloSampleLineal = creaSample(arregloLineal, n, m, b);
     if (PRINT){
@@ -101,4 +101,34 @@ int main(int argc, char** argv){
         cout << "Frecuencia de los arreglos GC Lineal: " << endl;
         imprimeFrecuencia(frecuenciaGCLineal);
     }
+    vector<simboloFrec> frecuenciaGCNormal = frecuenciaGC(arregloGCNormal, n);
+
+    vector<simboloCod> simboloCodLineal = crearCodificacionHuffman(frecuenciaGCLineal);
+
+    printf("SimboloCod\n");
+
+    for (int i = 0; i < simboloCodLineal.size(); ++i){
+        printf("\nSimbolo %i, frecuencia %f", simboloCodLineal[i].simbolo, frecuenciaGCLineal[i].frecuencia);
+        printf("\nCodificacion: ");
+        for (int j = 0; j < simboloCodLineal[i].codification.size(); j++){
+            cout << simboloCodLineal[i].codification[j] << " ";
+        }
+    }
+    printf("\n");
+
+
+
+
+    // traduciendo a char
+    vector<simboloCodChar> simboloCodCharLineal = traducir(simboloCodLineal);
+    for (int i = 0; i < simboloCodCharLineal.size(); ++i){
+        printf("\nSimbolo %i", simboloCodCharLineal[i].simbolo);
+        cout << "\nRepresentacion: " << simboloCodCharLineal[i].representacion;
+        cout <<"\nnumero: " << static_cast<int>(simboloCodCharLineal[i].representacion);
+    }
+
+    printf("\n");
+
+    cout << "";
+
 }

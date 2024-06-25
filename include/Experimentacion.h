@@ -5,7 +5,7 @@
 #include <sys/resource.h>   //Utilizado para medir la memoria RAM utilizada en ejecución https://pubs.opengroup.org/onlinepubs/7908799/xsh/sysresource.h.html
 #include <cstdio>
 
-#define PRINT 1
+#define PRINT 0
 #define REP 1e4
 #define EXP 0
 

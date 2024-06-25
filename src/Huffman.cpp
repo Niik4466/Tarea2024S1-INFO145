@@ -33,27 +33,32 @@ void imprimeFrecuencia(vector<simboloFrec> frecuencia){
 // todos los procesos hasta entregar los códigos de huffman canónicos
 vector<simboloCod> crearCodificacionHuffman(vector<simboloFrec> frecuenciaGC){
     // declaramos la cola de prioridad
+
     priority_queue <simboloFrec*, vector<simboloFrec*>, CompareSimboloFrec> huffmanQueue;
 
     // almacenamos todas las frecuencias a la cola de prioridad
+
     for (int i = 0; i < frecuenciaGC.size(); ++i){
         huffmanQueue.push(&(frecuenciaGC[i]));
     }
+
     // creamos el árbol de huffman y obtenemos la raíz
     simboloFrec* raiz = createHuffman(huffmanQueue);
-
+    
     // encontramos las codificaciones dado un árbol de huffman
     vector<simboloCod> codificationNormal(frecuenciaGC.size());
-    for (int i = 0; i < frecuenciaGC.size(); ++i)
+    for (int i = 0; i < frecuenciaGC.size(); ++i){
         codificationNormal[i].simbolo = frecuenciaGC[i].valor;
-    
+    }
+
     vector<bool> aux;
     codificationHuffman(raiz, codificationNormal, aux);
 
     // transforma la codificacion del árbol obtenida anteriormente a una canónica.
-    vector<simboloCod> codificationCanonico;
+    vector<simboloCod> codificationCanonico(frecuenciaGC.size());
     for(int i = 0; i < frecuenciaGC.size(); ++i)
         codificationCanonico[i].simbolo = frecuenciaGC[i].valor;
+
     canonicHuffman(codificationNormal, codificationCanonico);
 
     return codificationCanonico;
@@ -76,11 +81,33 @@ simboloFrec* createHuffman(priority_queue <simboloFrec*, vector<simboloFrec*>, C
     return nuevo;
 }
 
+void codificationHuffman(simboloFrec *huffmanTree, vector<simboloCod> &codifications, vector<bool> &aux) {
+    if (huffmanTree == nullptr)
+        return;
 
+    if (huffmanTree->valor != -1) { // Es una hoja del árbol
+        int i = 0;
+        while (i < codifications.size() && codifications[i].simbolo != huffmanTree->valor)
+            i++;
+        if (i < codifications.size()) // Se encontró el símbolo en el vector de codificaciones
+            codifications[i].codification = aux;
+        return;
+    }
+
+    aux.push_back(0);
+    codificationHuffman(huffmanTree->izq, codifications, aux);
+    aux.pop_back();
+
+    aux.push_back(1);
+    codificationHuffman(huffmanTree->der, codifications, aux);
+    aux.pop_back();
+}
+
+/*
 void codificationHuffman(simboloFrec *huffmanTree, vector<simboloCod> &codifications, vector<bool> aux){
     if (huffmanTree == nullptr)
         return;
-    
+    +
     aux.push_back(0);
     codificationHuffman(huffmanTree->izq, codifications, aux);
     aux.pop_back();
@@ -93,9 +120,11 @@ void codificationHuffman(simboloFrec *huffmanTree, vector<simboloCod> &codificat
     }
     aux.push_back(1);
     codificationHuffman(huffmanTree->der, codifications, aux);
-}
+}*/
 
 void canonicHuffman(vector<simboloCod> &codifications, vector<simboloCod> &canonicCodification){
+
+    
     int l = codifications[0].codification.size();
     vector<bool> aux = {1};
 
@@ -149,3 +178,100 @@ vector<bool> sumaBinarios(const vector<bool>& code1, const vector<bool>& code2) 
 
     return result;
 }
+
+/*
+Simbolo 1: Co: Char "\SO"
+
+char ch = static_cast<char>(num);*/
+
+/*
+struct simboloCod{
+    int simbolo;
+    std::vector<bool> codification;
+};
+
+struct simboloCodChar{
+    int simbolo;
+    unsigned char representacion;
+};
+*/
+
+vector<simboloCodChar> traducir(vector<simboloCod> simboloCod){
+    vector<simboloCodChar> simboloCodChar(simboloCod.size());
+    string binario;
+    char caracter;
+    int decimal;
+    for (int i = 0; i < simboloCod.size(); i++){ //iteramos sobre todos los simbolos
+        binario = "";
+        for(int j = 0 ; j < simboloCod[i].codification.size(); j++){
+            if (simboloCod[i].codification[j] == 1){           //iteramos sobre el vector de codificacion
+                binario = "1" + binario;
+            }
+            else{
+                binario = "0" + binario;
+            }
+        }
+        simboloCodChar[i].simbolo = simboloCod[i].simbolo;
+        
+        //Aqui se traduce con stoi 
+        decimal = stoi(binario,nullptr,2);
+        
+        //pasar a char 
+        caracter = static_cast<unsigned char>(decimal);
+        
+        simboloCodChar[i].representacion = caracter;
+    }
+    return simboloCodChar;
+}
+
+
+Se deberia tener un struct con las siguientes cosas 
+    Σ[1..σ] SIMBOLOS 
+    F[1..h] donde se indica el primer codigo CON largo l  
+    C[1..h] almacena el primer codigo de largo L/
+
+GCBinario = [01110, 110, 1110]
+GC        =  01110, 110, 1110
+                     |
+                     v
+                     5
+
+vector<NOSE> decodificar ()
+    //debemos tomar los h bits de S', donde nuestro S' num binario a decodificar y lo ponemos en un entero N, donde N sera un INT? (32 bits? ), USANDO LOS H BITS MENOS SIGNFICATIVOS!
+    //int indiceS = 0; para recorrer S
+    while ( i  < TAMAÑO DE S'){
+        //h representa el largo maximo xd, este se va actualizando cada vez que se reinicia el indice i
+        int h = simboloCod.codification.size();
+
+
+        //PASO 1: tenemos que extraer h bits de S',
+        int N = 0; //en este caso creo que guardariamos en los 16 bits  
+        //aqui recorremos hasta el largo dado. 
+        for (int i = 0; i < h; i++){
+            if ()
+        }
+
+        
+
+
+        //luego encontramos el largo tal que C[ℓ] · 2h−ℓ ≤ N < C[ℓ + 1] · 2h−(ℓ+1
+        //el largo se busca con busqueda binaria xdxddxd y probar hasta que cumpla la condicion 
+        izq = 1;
+        der = h;
+        while (izq < der){
+            int medio = (izq + der)/2;
+            if (C[m] * 2(h-l)<= h && N >= )
+        }
+
+
+        //luego obtenemos un N', donde en este guarda los bits MAS SIGNIFICATIVOS de N 
+
+
+        //obtenemos el simbolo !!!!!!!!!!!!!
+
+        //y actualizamos el i = i + l y volver al paso 1  (recursivo? xd)
+
+
+        //actualizamos indice el i 
+        i = i + l;
+    }

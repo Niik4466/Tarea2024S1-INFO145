@@ -7,7 +7,7 @@
 
 #include <algorithm>
 
-#define EPSILON 10 + 1
+#define EPSILON 255
 
 int* creaArregloLineal(int largo);
 int busquedaBinaria(int* arreglo, int x, int n);
