@@ -2,8 +2,10 @@
 using namespace std;
 
 vector<simboloFrec> frecuenciaGC(int* GapCodingArreglo, int largo){
+    cout << "entre :v";
     vector<simboloFrec> frecuencia;
     int j;
+    cout << "creando";
     for (int i = 0; i < largo; i++){
         j = 0; //iterar sobre el vector de frecuencias.
         while(j < frecuencia.size() && frecuencia[j].valor != GapCodingArreglo[i]){
@@ -15,10 +17,12 @@ vector<simboloFrec> frecuenciaGC(int* GapCodingArreglo, int largo){
             frecuencia[j].frecuencia += 1;
     }
 
+    cout <<"ordenando: ";
     //ordenamos por frecuencia de mayor a menor
     sort(frecuencia.begin(), frecuencia.end(), [](simboloFrec a, simboloFrec b){
         return a.frecuencia > b.frecuencia;
     });
+
     return frecuencia;
 }
 
@@ -53,7 +57,7 @@ vector<simboloCod> crearCodificacionHuffman(vector<simboloFrec> frecuenciaGC){
 
     vector<bool> aux;
     codificationHuffman(raiz, codificationNormal, aux);
-
+    return codificationNormal;
     // transforma la codificacion del árbol obtenida anteriormente a una canónica.
     vector<simboloCod> codificationCanonico(frecuenciaGC.size());
     for(int i = 0; i < frecuenciaGC.size(); ++i)
@@ -214,7 +218,11 @@ vector<simboloCodChar> traducir(vector<simboloCod> simboloCod){
         simboloCodChar[i].simbolo = simboloCod[i].simbolo;
         
         //Aqui se traduce con stoi 
+        cout << "en traducir: " << endl;
+        cout << "binario: " << binario << endl;
         decimal = stoi(binario,nullptr,2);
+        cout << "decimal: " << decimal << endl;
+
         
         //pasar a char 
         caracter = static_cast<unsigned char>(decimal);
@@ -224,22 +232,73 @@ vector<simboloCodChar> traducir(vector<simboloCod> simboloCod){
     return simboloCodChar;
 }
 
-
+/*
 Se deberia tener un struct con las siguientes cosas 
     Σ[1..σ] SIMBOLOS 
     F[1..h] donde se indica el primer codigo CON largo l  
     C[1..h] almacena el primer codigo de largo L/
 
+
 GCBinario = [01110, 110, 1110]
 GC        =  01110, 110, 1110
                      |
                      v
-                     5
+R:                   5
+*/
 
-vector<NOSE> decodificar ()
+unordered_map<unsigned char, int> CreateHash(vector<simboloCodChar> simboloCodChar){
+    unordered_map<unsigned char, int> decodificar;
+    for (int i = 0; i < simboloCodChar.size(); ++i){
+        decodificar.insert({simboloCodChar[i].representacion, simboloCodChar[i].simbolo});
+    }
+    
+    //imprimir el resultado
+    
+    for (const auto & pair: simboloCodChar) {
+        cout << "Key: " << pair.representacion << ", Value: " << pair.simbolo << endl << endl;
+    }
+
+    return decodificar; 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+vector<NOSE> decodificar (){
     //debemos tomar los h bits de S', donde nuestro S' num binario a decodificar y lo ponemos en un entero N, donde N sera un INT? (32 bits? ), USANDO LOS H BITS MENOS SIGNFICATIVOS!
     //int indiceS = 0; para recorrer S
-    while ( i  < TAMAÑO DE S'){
+    while ( i  < TAMAÑO DE S){
         //h representa el largo maximo xd, este se va actualizando cada vez que se reinicia el indice i
         int h = simboloCod.codification.size();
 
@@ -275,3 +334,4 @@ vector<NOSE> decodificar ()
         //actualizamos indice el i 
         i = i + l;
     }
+}*/

@@ -12,6 +12,10 @@ int main(int argc, char** argv){
     }
 
     int n = atoi(argv[1]); // Tamaño del arreglo
+    if (n < 2){
+        printf("n debe ser mayor a 1\n");
+        exit(EXIT_FAILURE);
+    }
     int sd = atof(argv[2]); // Desviación estandar
     int media = 1e8;
 
@@ -26,7 +30,7 @@ int main(int argc, char** argv){
     /*if (EXP)
         exp.imprimeRamUsada();*/
 
-    if (PRINT){
+    if (PRINT == 0){
         cout << "Arreglo Lineal: ";
         imprimeArreglo(arregloLineal, n);
     }
@@ -59,6 +63,7 @@ int main(int argc, char** argv){
         imprimeArreglo(arregloGCNormal, n);
     }
 
+    cout << "sample, " << endl;
     // Sample
     // calculamos m en funcion n, y b en funcion de m y n
     double logaritmo = log2(n);
@@ -94,41 +99,70 @@ int main(int argc, char** argv){
             cout << "Indice del elemento: " << busquedaBinariaSample_GC(arregloGCNormal, arregloSampleNormal, num, n, m, b) << endl;
         }while (num != -1);
     }
-
+    
     // Frecuencia de los arreglos GC
+    cout <<"frecuencia, no mori" << endl;
     vector<simboloFrec> frecuenciaGCLineal = frecuenciaGC(arregloGCLineal, n);
-    if (PRINT){
+    if (PRINT == 0){
         cout << "Frecuencia de los arreglos GC Lineal: " << endl;
         imprimeFrecuencia(frecuenciaGCLineal);
     }
     vector<simboloFrec> frecuenciaGCNormal = frecuenciaGC(arregloGCNormal, n);
-
-    vector<simboloCod> simboloCodLineal = crearCodificacionHuffman(frecuenciaGCLineal);
-
-    printf("SimboloCod\n");
-
-    for (int i = 0; i < simboloCodLineal.size(); ++i){
-        printf("\nSimbolo %i, frecuencia %f", simboloCodLineal[i].simbolo, frecuenciaGCLineal[i].frecuencia);
-        printf("\nCodificacion: ");
-        for (int j = 0; j < simboloCodLineal[i].codification.size(); j++){
-            cout << simboloCodLineal[i].codification[j] << " ";
-        }
+    if (PRINT == 0){
+        cout << "Frecuencia de los arreglos GC Normal: " << endl;
+        imprimeFrecuencia(frecuenciaGCNormal);
     }
-    printf("\n");
-
-
-
-
+    cout << "post frecuencia" << endl;
+    /*
+    // Codificacion Huffman
+    vector<simboloCod> simboloCodLineal = crearCodificacionHuffman(frecuenciaGCLineal);
+    if (PRINT == 0){
+        cout << "SimboloCodLineal\n";
+        for (int i = 0; i < simboloCodLineal.size(); ++i){
+            cout << "\nSimbolo " << simboloCodLineal[i].simbolo << ", frecuencia " << frecuenciaGCLineal[i].frecuencia << endl;
+            cout << "Codificacion: ";
+            for (int j = 0; j < simboloCodLineal[i].codification.size(); j++){
+                cout << simboloCodLineal[i].codification[j] << " ";
+            }
+        }
+        cout << endl;
+    }
+    
+    vector<simboloCod> simboloCodNormal = crearCodificacionHuffman(frecuenciaGCNormal);
+    if (PRINT == 0){
+        cout << "SimboloCodNormal\n";
+        for (int i = 0; i < simboloCodNormal.size(); ++i){
+            cout << "\n Simbolo " << simboloCodNormal[i].simbolo << ", frecuencia " << frecuenciaGCNormal[i].frecuencia << endl;
+            cout << "Codificacion: ";
+            for (int j = 0; j < simboloCodNormal[i].codification.size(); j++){
+                cout << simboloCodNormal[i].codification[j] << " ";
+            }
+        }
+        cout << endl;
+    }
+    */
+    /*
     // traduciendo a char
+    cout << "SimboloCodCharLineal\n";
     vector<simboloCodChar> simboloCodCharLineal = traducir(simboloCodLineal);
     for (int i = 0; i < simboloCodCharLineal.size(); ++i){
         printf("\nSimbolo %i", simboloCodCharLineal[i].simbolo);
         cout << "\nRepresentacion: " << simboloCodCharLineal[i].representacion;
         cout <<"\nnumero: " << static_cast<int>(simboloCodCharLineal[i].representacion);
     }
+    cout << endl;
+    cout << "SimboloCodCharNormal\n";
+    vector<simboloCodChar> simboloCodCharNormal = traducir(simboloCodNormal);
+    for (int i = 0; i < simboloCodCharNormal.size(); ++i){
+        printf("\nSimbolo %i", simboloCodCharNormal[i].simbolo);
+        cout << "\nRepresentacion: " << simboloCodCharNormal[i].representacion;
+        cout <<"\nnumero: " << static_cast<int>(simboloCodCharNormal[i].representacion);
+    }
+    */
+    // Decodificacion 
+/*
+    unordered_map<unsigned char, int> decodificar = CreateHash(simboloCodCharLineal);
 
-    printf("\n");
-
-    cout << "";
+    */
 
 }

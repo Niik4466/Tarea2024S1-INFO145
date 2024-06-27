@@ -4,7 +4,6 @@
 #include <iostream>
 #include <cstdlib>
 #include <random>
-
 #include <algorithm>
 
 #define EPSILON 255
