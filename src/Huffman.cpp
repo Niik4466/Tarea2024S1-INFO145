@@ -1,11 +1,9 @@
-#include "Huffman.h"
+    #include "Huffman.h"
 using namespace std;
 
 vector<simboloFrec> frecuenciaGC(int* GapCodingArreglo, int largo){
-    cout << "entre :v";
     vector<simboloFrec> frecuencia;
     int j;
-    cout << "creando";
     for (int i = 0; i < largo; i++){
         j = 0; //iterar sobre el vector de frecuencias.
         while(j < frecuencia.size() && frecuencia[j].valor != GapCodingArreglo[i]){
@@ -16,8 +14,6 @@ vector<simboloFrec> frecuenciaGC(int* GapCodingArreglo, int largo){
         else 
             frecuencia[j].frecuencia += 1;
     }
-
-    cout <<"ordenando: ";
     //ordenamos por frecuencia de mayor a menor
     sort(frecuencia.begin(), frecuencia.end(), [](simboloFrec a, simboloFrec b){
         return a.frecuencia > b.frecuencia;
@@ -218,10 +214,7 @@ vector<simboloCodChar> traducir(vector<simboloCod> simboloCod){
         simboloCodChar[i].simbolo = simboloCod[i].simbolo;
         
         //Aqui se traduce con stoi 
-        cout << "en traducir: " << endl;
-        cout << "binario: " << binario << endl;
         decimal = stoi(binario,nullptr,2);
-        cout << "decimal: " << decimal << endl;
 
         
         //pasar a char 
@@ -232,106 +225,51 @@ vector<simboloCodChar> traducir(vector<simboloCod> simboloCod){
     return simboloCodChar;
 }
 
-/*
-Se deberia tener un struct con las siguientes cosas 
-    Σ[1..σ] SIMBOLOS 
-    F[1..h] donde se indica el primer codigo CON largo l  
-    C[1..h] almacena el primer codigo de largo L/
-
-
-GCBinario = [01110, 110, 1110]
-GC        =  01110, 110, 1110
-                     |
-                     v
-R:                   5
-*/
-
 unordered_map<unsigned char, int> CreateHash(vector<simboloCodChar> simboloCodChar){
     unordered_map<unsigned char, int> decodificar;
     for (int i = 0; i < simboloCodChar.size(); ++i){
         decodificar.insert({simboloCodChar[i].representacion, simboloCodChar[i].simbolo});
     }
-    
-    //imprimir el resultado
-    
-    for (const auto & pair: simboloCodChar) {
-        cout << "Key: " << pair.representacion << ", Value: " << pair.simbolo << endl << endl;
-    }
 
     return decodificar; 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-vector<NOSE> decodificar (){
-    //debemos tomar los h bits de S', donde nuestro S' num binario a decodificar y lo ponemos en un entero N, donde N sera un INT? (32 bits? ), USANDO LOS H BITS MENOS SIGNFICATIVOS!
-    //int indiceS = 0; para recorrer S
-    while ( i  < TAMAÑO DE S){
-        //h representa el largo maximo xd, este se va actualizando cada vez que se reinicia el indice i
-        int h = simboloCod.codification.size();
-
-
-        //PASO 1: tenemos que extraer h bits de S',
-        int N = 0; //en este caso creo que guardariamos en los 16 bits  
-        //aqui recorremos hasta el largo dado. 
-        for (int i = 0; i < h; i++){
-            if ()
-        }
-
-        
-
-
-        //luego encontramos el largo tal que C[ℓ] · 2h−ℓ ≤ N < C[ℓ + 1] · 2h−(ℓ+1
-        //el largo se busca con busqueda binaria xdxddxd y probar hasta que cumpla la condicion 
-        izq = 1;
-        der = h;
-        while (izq < der){
-            int medio = (izq + der)/2;
-            if (C[m] * 2(h-l)<= h && N >= )
-        }
-
-
-        //luego obtenemos un N', donde en este guarda los bits MAS SIGNIFICATIVOS de N 
-
-
-        //obtenemos el simbolo !!!!!!!!!!!!!
-
-        //y actualizamos el i = i + l y volver al paso 1  (recursivo? xd)
-
-
-        //actualizamos indice el i 
-        i = i + l;
+int busquedaBinariaSample_GCHuffman(unsigned char* GCHuffman, int* Sample, int x, int n, int m, int b, unordered_map<unsigned char, int> &decodificar) {
+    int izq = 0, der = m - 1;
+    if(x<Sample[0]) return -1;
+    while (izq <= der) {
+        int medio = (izq + der) / 2;
+        if (Sample[medio] == x)
+            return medio*b;
+        if (Sample[medio] < x)
+            izq = medio + 1;
+        else
+            der = medio - 1;
     }
-}*/
+    
+    return busquedaLinealAcotadaGCHuffman(GCHuffman, x, n, der*b, Sample[der], decodificar);
+}
+
+int busquedaLinealAcotadaGCHuffman(unsigned char* GCHuffman, int x, int n, int indice, int elemento_acotado, unordered_map<unsigned char, int> &decodificar){ 
+    int elemento_sumado = elemento_acotado;
+    for (int i = indice+1; i < n; ++i){
+        elemento_sumado += decodificar[GCHuffman[i]];
+        if (elemento_sumado > x)
+            return -1;
+        if (elemento_sumado == x)
+            return i;
+    }
+    return -1;
+}
+
+unsigned char* transformarGCaGCHuffman(int* GC, vector<simboloCodChar> &simboloCodChar, int n){
+    unsigned char* GCHuffman = new unsigned char[n];
+    int j;
+    for (int i = 0; i < n; ++i){
+        j = 0;
+        while (j < simboloCodChar.size() && simboloCodChar[j].simbolo != GC[i])
+            j++;
+        GCHuffman[i] = simboloCodChar[j].representacion;
+    }
+    return GCHuffman;
+}

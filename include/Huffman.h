@@ -30,7 +30,7 @@ struct CompareSimboloFrec{
     bool operator()(simboloFrec* const& n1, simboloFrec* const& n2){
         return n1->frecuencia >= n2->frecuencia;
     }
- };
+};
 
 // Definicion de las funciones
 std::vector<simboloFrec> frecuenciaGC(int* GapCodingArreglo, int largo);
@@ -46,4 +46,9 @@ std::vector<bool> sumaBinarios(const std::vector<bool>& code1, const std::vector
 
 std::vector<simboloCodChar> traducir(std::vector<simboloCod> simboloCod);
 std::unordered_map<unsigned char, int> CreateHash(std::vector<simboloCodChar> simboloCodChar);
+
+unsigned char* transformarGCaGCHuffman(int* GC, std::vector<simboloCodChar> &simboloCodChar, int n);
+int busquedaBinariaSample_GCHuffman(unsigned char* GCHuffman, int* Sample, int x, int n, int m, int b, std::unordered_map<unsigned char, int> &decodificar);
+int busquedaLinealAcotadaGCHuffman(unsigned char* GCHuffman, int x, int n, int indice, int elemento_acotado, std::unordered_map<unsigned char, int> &decodificar);
+
 #endif

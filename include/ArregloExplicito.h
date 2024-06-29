@@ -6,7 +6,7 @@
 #include <random>
 #include <algorithm>
 
-#define EPSILON 255
+#define EPSILON 16
 
 int* creaArregloLineal(int largo);
 int busquedaBinaria(int* arreglo, int x, int n);
