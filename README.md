@@ -1,4 +1,4 @@
-# INFO145 : Diseño y Análisis de Algoritmos
+# Tarea INFO145 : Diseño y Análisis de Algoritmos
 
 <h5> Técnicas de Representación y Compresión de Arreglos Ordenados </h5>
 
