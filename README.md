@@ -1,6 +1,6 @@
 # INFO145 : Diseño y Análisis de Algoritmos
 
-<h1> Tarea: Técnicas de Representaci´on y Compresión de Arreglos Ordenados </h1>
+<h5> Técnicas de Representación y Compresión de Arreglos Ordenados </h5>
 
 <h2> Especificaciones para correr el programa </h2>
 
